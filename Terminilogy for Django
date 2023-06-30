@@ -1,0 +1,153 @@
+------------------------------------------------------------------------------------------
+|| Basic trminology for ROUTE, VIEW, URL
+--------------------------------------------------------------------
+
+1. How route work in python you need to make functiona in views.py and then call that 
+   function inside urls.py like this.
+
+    path('index',views.index)
+
+2. Django requires us to include the installed apps in the settings of the main project. 	So, open the settings.py file of the mac and write the names of the apps under the 	    INSTALLED_APPS section: 
+
+		# Application definition
+		INSTALLED_APPS = [
+		    'django.contrib.admin',
+		    'django.contrib.auth',
+		    'django.contrib.contenttypes',
+		    'django.contrib.sessions',
+		    'django.contrib.messages',
+		    'django.contrib.staticfiles',
+		     'blog',
+		     'shop'
+		]
+
+
+3.  You can create multiple app inside your project like blog,shop. Also you can create 
+	seprate url.py for app all you need to registred in project main url.py liek this 
+
+    path('shop/', include('shop.urls'))
+
+
+4. Create your static file like style,js inside app you can make folder 
+   style/style.css you can access this file like this 
+
+   {% load static %}
+   <link href="{%static 'blog/style.css' %}" >
+
+5. For making View file all you need to make the templates folder inside your app and 
+   then place html file inside that. You can now call your file like this under views.py
+
+   def navbar(request):
+        return render(request,'navbar.html',{})
+
+
+------------------------------------------------------------------------------------------
+  || Model/Migrations work in Django
+------------------------------------------------------------------------------------------
+
+
+1. Models
+
+	from django.db import models
+
+	class Product(models.Model):
+	    product_id=models.AutoField
+	    product_name=models.CharField(max_length=50)
+	    desc=models.CharField(max_length=300)
+	    pub_date=models.DateField()
+
+
+2. Now we have made a change so let's store this change by typing the below code :
+
+		python manage.py makemigrations
+
+		python manage.py migrate
+
+3.  To create a superuser
+		python manage.py create superuser
+
+
+4. In the above image, groups and users are available. But we can not see the product 
+	table that we created in the previous tutorial. This is because Django requires us to register all the models in the admin.py file. So, to register, open the admin.py file of the shop and type the below command:
+
+
+		from django.contrib import admin
+
+		from .models import Product
+		admin.site.register(Product)
+
+	Now we can add product from admin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+||   Important command
+--------------------------------------------------------
+
+ 
+ 1. Backend or Main project
+       django-admin startproject crudexample
+
+ 2. Frontend
+
+       python manage.py startapp employee  
+ 
+
+ 3. Run server command
+
+       python manage.py runserver 
+
+
+ 4. Data base  command
+
+        install mysql
+        pip install pymysql
+
+	 Then, edit the __init__.py file in your project origin dir(the same as settings.py)
+	  
+	        import pymysql
+	        pymysql.install_as_MySQLdb()
+
+	 Create migrations for the created model employee, use the following command.
+	   
+	        python manage.py makemigrations  
+
+	 settings.py
+
+	          DATABASES = {  
+						    'default': {  
+						        'ENGINE': 'django.db.backends.mysql',  
+						        'NAME': 'djangodb',  
+						        'USER':'root',  
+						        'PASSWORD':'mysql',  
+						        'HOST':'localhost',  
+						        'PORT':'3306'  
+						    }  
+						} 
+
+	 Run the command to migrate the migrations.
+
+	           python manage.py migrate
+	             
+---------------------------------------------------------------------------------
